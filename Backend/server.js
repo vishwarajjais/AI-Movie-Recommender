@@ -15,6 +15,9 @@ app.get('/api/ping', (req, res) => {
 const movieRoutes = require('./routes/movies');
 app.use('/api/movies', movieRoutes);
 
+const recommendRoutes = require('./routes/recommend');
+app.use('/api/recommend', recommendRoutes);
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
