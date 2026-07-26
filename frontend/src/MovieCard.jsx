@@ -1,13 +1,19 @@
-function MovieCard({ movie, isFavorite, onToggleFavorite }) {
+function MovieCard({ movie, isFavorite, onToggleFavorite, onClick }) {
   const posterUrl = movie.poster_path
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
     : null;
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col relative">
+    <div
+      onClick={() => onClick(movie)}
+      className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col relative cursor-pointer hover:shadow-lg transition-shadow"
+    >
       <button
-        onClick={() => onToggleFavorite(movie)}
-        className="absolute top-2 right-2 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow"
+        onClick={(e) => {
+          e.stopPropagation();
+          onToggleFavorite(movie);
+        }}
+        className="absolute top-2 right-2 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow z-10"
       >
         {isFavorite ? '❤️' : '🤍'}
       </button>

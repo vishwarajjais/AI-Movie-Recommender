@@ -2,6 +2,7 @@ import { useState } from 'react';
 import SearchBar from './SearchBar';
 import MovieCard from './MovieCard';
 import RefineBar from './RefineBar';
+import MovieModal from './MovieModal';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -15,6 +16,7 @@ function App() {
   });
   const [showFavorites, setShowFavorites] = useState(false);
   const [lastPreference, setLastPreference] = useState('');
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
   const handleSearch = async (userPreference) => {
     setLoading(true);
@@ -92,6 +94,7 @@ function App() {
                 movie={movie}
                 isFavorite={true}
                 onToggleFavorite={toggleFavorite}
+                onClick={setSelectedMovie}
               />
             ))
           )}
@@ -119,11 +122,13 @@ function App() {
                 movie={movie}
                 isFavorite={favorites.some((m) => m.id === movie.id)}
                 onToggleFavorite={toggleFavorite}
+                onClick={setSelectedMovie}
               />
             ))}
           </div>
         </>
       )}
+      <MovieModal movie={selectedMovie} onClose={() => setSelectedMovie(null)} />
     </div>
   );
 }
