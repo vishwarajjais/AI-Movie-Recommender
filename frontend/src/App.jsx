@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import SearchBar from './SearchBar';
 import MovieCard from './MovieCard';
+import RefineBar from './RefineBar';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -13,11 +14,13 @@ function App() {
     return saved ? JSON.parse(saved) : [];
   });
   const [showFavorites, setShowFavorites] = useState(false);
+  const [lastPreference, setLastPreference] = useState('');
 
   const handleSearch = async (userPreference) => {
     setLoading(true);
     setError(null);
     setRecommendations([]);
+    setLastPreference(userPreference);
 
     try {
       const response = await fetch(`${API_BASE_URL}/api/recommend`, {
@@ -35,6 +38,11 @@ function App() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleRefine = (refinementText) => {
+    const combined = `${lastPreference}. Additionally: ${refinementText}`;
+    handleSearch(combined);
   };
 
   const toggleFavorite = (movie) => {
@@ -64,6 +72,10 @@ function App() {
       </div>
 
       {!showFavorites && <SearchBar onSearch={handleSearch} loading={loading} />}
+
+      {!showFavorites && recommendations.length > 0 && !loading && (
+        <RefineBar onRefine={handleRefine} loading={loading} />
+      )}
 
       {error && (
         <p className="text-red-500 text-center mb-4">{error}</p>
