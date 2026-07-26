@@ -44,6 +44,20 @@ function App() {
         <p className="text-red-500 text-center mb-4">{error}</p>
       )}
 
+      {loading && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="bg-gray-200 rounded-lg h-96 animate-pulse"></div>
+          ))}
+        </div>
+      )}
+
+      {!loading && recommendations.length === 0 && !error && (
+        <p className="text-center text-gray-500 mt-10">
+          Enter a preference above to get recommendations.
+        </p>
+      )}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
         {recommendations.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
