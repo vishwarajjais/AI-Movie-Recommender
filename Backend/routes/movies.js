@@ -21,6 +21,19 @@ router.get('/search', async (req, res) => {
   }
 });
 
+router.get('/genres', async (req, res) => {
+  try {
+    const response = await axios.get(`${TMDB_BASE}/genre/movie/list`, {
+      params: { api_key: process.env.TMDB_API_KEY },
+      timeout: 10000,
+    });
+    res.json(response.data.genres);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Failed to fetch genres' });
+  }
+});
+
 // Discover movies by genre/rating (for candidate pool later)
 router.get('/discover', async (req, res) => {
   try {
