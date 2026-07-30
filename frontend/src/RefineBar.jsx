@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function RefineBar({ onRefine, loading }) {
+export default function RefineBar({ onRefine, loading }) {
   const [input, setInput] = useState('');
 
   const handleSubmit = (e) => {
@@ -11,23 +11,23 @@ function RefineBar({ onRefine, loading }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 w-full max-w-xl mx-auto mb-8">
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Refine: e.g. less sci-fi, more romance"
-        className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
-      />
-      <button
-        type="submit"
-        disabled={loading}
-        className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 disabled:opacity-50"
-      >
-        Refine
-      </button>
+    <form onSubmit={handleSubmit} className="w-full">
+      <div className="flex flex-col sm:flex-row gap-3 p-4 bg-indigo-50 rounded-lg border border-indigo-200">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Refine: e.g., less sci-fi, more romance..."
+          className="flex-1 px-4 py-2 border border-indigo-300 rounded-lg bg-white text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition-all text-sm"
+        />
+        <button
+          type="submit"
+          disabled={loading || !input.trim()}
+          className="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
+        >
+          {loading ? '⟳ Refining...' : 'Refine'}
+        </button>
+      </div>
     </form>
   );
 }
-
-export default RefineBar;
